@@ -9,6 +9,7 @@ we have:
 
  * check_server_magic.py - Checks a given magic string against servers to see how they 
    fail (or don't).
+ * get_header.py - Outputs the value of the given header for the servers provided.
 
 
    
