@@ -114,6 +114,7 @@ class LineReader(object):
     to connect to, and run processor(proc_args) on it.
     """
     max_outstanding = 200
+    notify = 100
     
     def __init__(self, inp, handle_result, processor, *proc_args):
         self.input = inp
@@ -122,6 +123,7 @@ class LineReader(object):
         self.proc_args = proc_args
         self.running = True
         self.outstanding = 0
+        self.line_num = 0
         schedule(0, self.schedule_lines)
         run()
 
@@ -133,12 +135,15 @@ class LineReader(object):
         for i in range(unreserved):
             if self.running:
                 line = self.input.readline()
+                self.line_num += 1
                 if line == "":
                     sys.stderr.write("* Input finished.\n")
                     self.running = False
                     break
                 else:
                     self.parse_line(line)
+                if self.line_num % self.notify == 0:
+                    sys.stderr.write("* %s processed\n" % (self.line_num))
         if self.running:
             schedule(0.1, self.schedule_lines)
 
