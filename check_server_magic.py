@@ -11,8 +11,8 @@ Results can be:
  - CLOSE - the connection was closed.
  - TIMEOUT - there was a timeout.
  
-if host is supplied, that host is checked; otherwise, stdin is presumed to be a newline-
-delimited list of hosts to check.
+if host is supplied, that host is checked; otherwise, stdin is presumed to be 
+a newline- delimited list of hosts to check.
 
 magic must be in hex format; one easy way to generate in Python is:
 
@@ -94,7 +94,8 @@ class MagicChecker(EventEmitter):
             timeout.delete()
         if self.conn:
             self.conn.close()
-        self.emit("result", result, details, self.output, wait, self.host, self.port)
+        self.emit("result", 
+                  result, details, self.output, wait, self.host, self.port)
 
 
 def print_result(kind, details, output, delay, host, port):
