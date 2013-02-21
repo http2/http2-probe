@@ -95,12 +95,16 @@ class MagicChecker(EventEmitter):
 
 
 def print_result(kind, details, output, delay, host, port):
+    if kind == 'TIMEOUT':
+        notes = output[:40].replace('\r', ' ').replace('\n', ' ')
+    else:
+        notes = details and details.split("\n")[0].encode('utf-8', 'replace') or "",
     print "%s:%s %s %2.2f - %s" % (
         host,
         port,
         kind,
         delay,
-        details and details.split("\n")[0].encode('utf-8', 'replace') or "",
+        notes
     )
 
 
