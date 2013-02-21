@@ -34,8 +34,8 @@ thor.loop.debug = False
 
 class MagicChecker(EventEmitter):
     "Test magic against a single ip:port."
-    connect_timeout = 5
-    wait_timeout = 7
+    connect_timeout = 3
+    wait_timeout = 5
 
     def __init__(self, magic):
         """
@@ -113,7 +113,7 @@ class LineReader(object):
     Given a file-like object, read lines off of it, assuming that each line is a host
     to connect to, and run processor(proc_args) on it.
     """
-    max_outstanding = 200
+    max_outstanding = 500
     notify = 100
     
     def __init__(self, inp, handle_result, processor, *proc_args):
