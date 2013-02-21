@@ -55,17 +55,13 @@ class MagicChecker(EventEmitter):
     def check(self, host, port):
         self.host = host
         self.port = port
-        self.timeouts.append(
-            schedule(self.connect_timeout, self.report, "TIMEOUT", "connect")
-        )
         self.conn_start = time()
-        self.client.connect(host, port)
+        self.client.connect(host, port, connect_timeout=self.connect_timeout)
 
     def connect(self, conn):
         self.conn = conn
         self.start = time()
         self.latency = self.start - self.conn_start
-        self.timeouts[0].delete()
         self.timeouts.append(
             schedule(self.wait_timeout, self.report, "TIMEOUT", "wait")
         )
