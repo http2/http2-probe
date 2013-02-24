@@ -39,6 +39,7 @@ class HeaderGetter(EventEmitter):
         self.client = HttpClient()
         self.client.connect_timeout = self.connect_timeout
         self.client.read_timeout = self.wait_timeout
+        self.client.idle_timeout = 0 # Don't need no steenkin pconns
 
     def check(self, host, port):
         x = self.client.exchange()        
@@ -51,10 +52,11 @@ class HeaderGetter(EventEmitter):
                 x.tcp_conn.close()
             
         @on(x)
-        def error(err_msg):
-            self.emit("result", "ERR", err_msg, host, port)
+        def error(err):
+            self.emit("result", "ERR", err.desc, host, port)
             if x.tcp_conn:
                 x.tcp_conn.close()
+                
         x.request_start("HEAD", "http://%s/" % host, [("User-Agent", "Test/1.0")])
         x.request_done([])
 
