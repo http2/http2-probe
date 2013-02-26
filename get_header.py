@@ -24,6 +24,9 @@ from thor.events import EventEmitter, on
 import thor.loop
 thor.loop.debug = False
 
+__version__ = "0.2"
+UA = "GetHeader/%s (see: http://j.mp/http2-probe-faq)" % __version__
+
 
 class HeaderGetter(EventEmitter):
     "Get the specified header for a single ip:port."
@@ -57,7 +60,7 @@ class HeaderGetter(EventEmitter):
             if x.tcp_conn:
                 x.tcp_conn.close()
                 
-        x.request_start("HEAD", "http://%s/" % host, [("User-Agent", "Test/1.0")])
+        x.request_start("HEAD", "http://%s/" % host, [("User-Agent", UA)])
         x.request_done([])
 
 
